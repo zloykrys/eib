@@ -147,7 +147,6 @@ The default configuration expects a specific QEMU NAT network (`host-nat` on `17
 ```xml
 <network connections='4'>
   <name>host-nat</name>
-  <uuid>f40c3893-3732-4d8f-b294-854e13c41e05</uuid>
   <forward mode='nat'>
     <nat>
       <port start='1024' end='65535'/>
@@ -169,14 +168,32 @@ The environment relies on a self-contained utility node (`172.16.33.2`) to provi
 
 **Forward Zone (`/var/lib/named/demo.com.zone`):**
 ```text
+$ORIGIN .
+$TTL 900	; 15 minutes
+demo.com		IN SOA	utility.demo.com. hostadmin.demo.com. (
+				642        ; serial
+				900        ; refresh (15 minutes)
+				300        ; retry (5 minutes)
+				604800     ; expire (1 week)
+				900        ; minimum (15 minutes)
+				)
+$TTL 3600	; 1 hour
+			NS	utility.demo.com.
 $ORIGIN demo.com.
-@                     900       IN  SOA           utility.demo.com. hostadmin 612 900 300 604800 900
-@                     3600      IN  NS            utility.demo.com.
-rancher-dev           3600      IN  A             172.16.33.10
-rke2-1                900       IN  A             172.16.33.47
-rke2-2                900       IN  A             172.16.33.46
-rke2-3                900       IN  A             172.16.33.45
-utility.demo.com.     900       IN  A             172.16.33.2
+harbor-dev		CNAME	rancher-dev
+juice-shop		CNAME	rancher-dev
+log4shell		CNAME	rancher-dev
+$TTL 600	; 10 minutes
+neuvector-dev		CNAME	rancher-dev
+$TTL 3600	; 1 hour
+rancher-dev		A	172.16.33.10
+$TTL 900	; 15 minutes
+rke2-1			A	172.16.33.47
+rke2-2			A	172.16.33.46
+rke2-3			A	172.16.33.45
+$TTL 900	; 15 minutes
+utility			A	172.16.33.2
+
 ```
 
 **Reverse Zone (`/var/lib/named/33.16.172.in-addr.arpa.zone`):**
@@ -242,10 +259,10 @@ virt-install \
   --memory 12288 \
   --vcpus 8 \
   --cpu host-passthrough \
-  --disk path=/home/mouse/build/eib/qcows/rke2-1.qcow2,size=60,format=qcow2,bus=virtio \
+  --disk path=$VMFOLDER$/qcows/rke2-1.qcow2,size=60,format=qcow2,bus=virtio \
   --os-variant slem6.2 \
   --network network=host-nat,model=virtio,mac=34:8A:B1:4B:16:E1 \
-  --cdrom /home/mouse/build/eib/eib-image.iso \
+  --cdrom $VMFOLDER/eib-image.iso \
   --graphics vnc \
   --boot uefi,hd,cdrom \
   --noautoconsole

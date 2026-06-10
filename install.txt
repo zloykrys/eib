@@ -1,13 +1,18 @@
+# Define the absolute path to the VM files storage $VMFOLDER
+# assuming the eib-image iso is in the root of the storage folder
+# and VM files are under $VMFOLDER/qcows
+export VMFOLDER=/home/user/eib
+
 virt-install \
   --connect qemu:///system \
   --name rke2-1 \
   --memory 8192 \
   --vcpus 8 \
   --cpu host-passthrough \
-  --disk path=/home/mouse/build/eib/qcows/rke2-1.qcow2,size=60,format=qcow2,bus=virtio \
+  --disk path=$VMFOLDER/qcows/rke2-1.qcow2,size=60,format=qcow2,bus=virtio \
   --os-variant slem6.2 \
   --network network=host-nat,model=virtio,mac=34:8A:B1:4B:16:E1 \
-  --cdrom /home/mouse/build/eib/eib-image.iso \
+  --cdrom $VMFOLDER/eib-image.iso \
   --graphics vnc \
   --boot uefi,hd,cdrom \
   --noautoconsole
@@ -19,10 +24,10 @@ virt-install \
   --memory 8192 \
   --vcpus 8 \
   --cpu host-passthrough \
-  --disk path=/home/mouse/build/eib/qcows/rke2-2.qcow2,size=60,format=qcow2,bus=virtio \
+  --disk path=$VMFOLDER/qcows/rke2-2.qcow2,size=60,format=qcow2,bus=virtio \
   --os-variant slem6.2 \
   --network network=host-nat,model=virtio,mac=34:8A:B1:4B:16:E2 \
-  --cdrom /home/mouse/build/eib/eib-image.iso \
+  --cdrom $VMFOLDER/eib-image.iso \
   --graphics vnc \
   --boot uefi,hd,cdrom \
   --noautoconsole
@@ -33,16 +38,16 @@ virt-install \
   --memory 8192 \
   --vcpus 8 \
   --cpu host-passthrough \
-  --disk path=/home/mouse/build/eib/qcows/rke2-3.qcow2,size=60,format=qcow2,bus=virtio \
+  --disk path=$VMFOLDER/qcows/rke2-3.qcow2,size=60,format=qcow2,bus=virtio \
   --os-variant slem6.2 \
   --network network=host-nat,model=virtio,mac=34:8A:B1:4B:16:E3 \
-  --cdrom /home/mouse/build/eib/eib-image.iso \
+  --cdrom $VMFOLDER/eib-image.iso \
   --graphics vnc \
   --boot uefi,hd,cdrom \
   --noautoconsole
   
 
-To test the deployment, open console in virt-manager and:
+To test the deployment, open console in virt-manager, login as root/eib
   
 export PATH=$PATH:/var/lib/rancher/rke2/bin/
 export KUBECONFIG=/etc/rancher/rke2/rke2.yaml

@@ -1,0 +1,27 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: rke2-ingress-nginx
+  namespace: kube-system
+spec:
+  failurePolicy: reinstall
+  valuesContent: |-
+    controller:
+      kind: Deployment
+      replicaCount: 3
+      service:
+        enabled: true
+        type: LoadBalancer
+        loadBalancerIP: 172.16.33.10
+        labels:
+          # REQUIRED: Satisfies the EIB-generated MetalLB pool
+          serviceType: kubernetes-vip
+        annotations:
+          # Include both to ensure MetalLB sees the shared key
+          metallb.universe.tf/allow-shared-ip: "rke2-shared-vip"
+          metallb.io/allow-shared-ip: "rke2-shared-vip"
+        # CHANGED: Must be Cluster to allow MetalLB IP binding
+        externalTrafficPolicy: Cluster
+      hostNetwork: false
+      publishService:
+        enabled: true

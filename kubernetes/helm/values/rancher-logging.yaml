@@ -1,0 +1,11 @@
+additionalLoggingSources:
+  rke2:
+    enabled: true
+global:
+  cattle:
+    clusterId: local
+    clusterName: local
+    rkePathPrefix: ""
+    systemDefaultRegistry: registry.rancher.com
+    url: https://rancher-dev.demo.com
+  systemDefaultRegistry: registry.rancher.com

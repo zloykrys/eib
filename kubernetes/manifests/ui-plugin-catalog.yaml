@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cattle-ui-plugin-system
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui-plugin-catalog
+  namespace: cattle-ui-plugin-system
+  labels:
+    catalog.cattle.io/ui-extensions-catalog-image: ui-plugin-catalog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      catalog.cattle.io/ui-extensions-catalog-image: ui-plugin-catalog
+  template:
+    metadata:
+      labels:
+        catalog.cattle.io/ui-extensions-catalog-image: ui-plugin-catalog
+    spec:
+      containers:
+      - name: server
+        # Points to your internal air-gap registry
+        image: registry.rancher.com/rancher/ui-plugin-catalog:4.7.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ui-plugin-catalog-svc
+  namespace: cattle-ui-plugin-system
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    catalog.cattle.io/ui-extensions-catalog-image: ui-plugin-catalog
+---
+apiVersion: catalog.cattle.io/v1
+kind: ClusterRepo
+metadata:
+  name: ui-plugin-catalog-repo
+spec:
+  # Informs Rancher to look at your local service for extension metadata
+  url: http://ui-plugin-catalog-svc.cattle-ui-plugin-system.svc.cluster.local:8080
+---
+apiVersion: catalog.cattle.io/v1
+kind: UIPlugin
+metadata:
+  name: neuvector-ui-ext
+  namespace: cattle-ui-plugin-system
+spec:
+  plugin:
+    name: neuvector-ui-ext
+    version: "2.1.5"
+    # Pointing to your internal air-gapped catalog service
+    endpoint: http://ui-plugin-catalog-svc.cattle-ui-plugin-system.svc.cluster.local:8080/plugin/neuvector-ui-ext-2.1.5
+    noAuth: false
+    noCache: false
+    metadata:
+      catalog.cattle.io/display-name: NeuVector UI Extension
+      catalog.cattle.io/kube-version: '>= v1.16.0-0'
+      catalog.cattle.io/rancher-version: '>= 2.10.0-0'
+      catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
+
+

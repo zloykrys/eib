@@ -1,0 +1,100 @@
+# --- Global Settings ---
+global:
+  harborAdminPassword: Harbor12345
+  imagePullPolicy: IfNotPresent
+
+# --- Core Service ---
+core:
+  image:
+    registry: dp.apps.rancher.io
+    repository: containers/harbor-core
+    tag: 2.15.0-3.1
+  replicas: 1
+
+# --- Database (Internal) ---
+database:
+  type: internal
+  internal:
+    image:
+      registry: dp.apps.rancher.io
+      repository: containers/harbor-db
+      tag: 2.15.0-3.3
+    password: changeit
+
+# --- Redis (Internal) ---
+redis:
+  type: internal
+  internal:
+    image:
+      registry: dp.apps.rancher.io
+      repository: containers/redis
+      tag: 8.6.3-5.2
+
+# --- Expose / Ingress ---
+expose:
+  type: ingress
+  tls:
+    enabled: true
+    certSource: auto
+  ingress:
+    hosts:
+      core: harbor-dev.demo.com
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-body-size: "0"
+
+externalURL: https://harbor-dev.demo.com
+
+# --- Persistence (NFS) ---
+persistence:
+  enabled: true
+  resourcePolicy: keep
+  persistentVolumeClaim:
+    registry:
+      size: 5Gi
+    database:
+      size: 1Gi
+    redis:
+      size: 1Gi
+    trivy:
+      size: 5Gi
+    jobservice:
+      jobLog:
+        size: 1Gi
+
+# --- Component Images ---
+portal:
+  image:
+    registry: dp.apps.rancher.io
+    repository: containers/harbor-portal
+    tag: 2.15.0-3.3
+
+registry:
+  registry:
+    image:
+      registry: dp.apps.rancher.io
+      repository: containers/harbor-registry
+      tag: 2.15.0-3.1
+  controller:
+    image:
+      registry: dp.apps.rancher.io
+      repository: containers/harbor-registryctl
+      tag: 2.15.0-3.1
+
+jobservice:
+  image:
+    registry: dp.apps.rancher.io
+    repository: containers/harbor-jobservice
+    tag: 2.15.0-3.1
+
+trivy:
+  enabled: true
+  image:
+    registry: dp.apps.rancher.io
+    repository: containers/harbor-trivy-adapter
+    tag: 2.15.0-3.1
+
+nginx:
+  image:
+    registry: dp.apps.rancher.io
+    repository: containers/nginx
+    tag: 1.29.8-6.3

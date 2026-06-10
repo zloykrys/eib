@@ -1,0 +1,17 @@
+storageClass:
+  create: true
+  name: nfs-client
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+  reclaimPolicy: Delete
+  parameters:
+    server: 172.16.33.2
+    share: /mnt/storage/rancher-dev
+  mountOptions:
+    - nfsvers=3          # Bypasses the stateful session overhead of v4
+    - udp                # Bypasses the TCP sequence mismatch/ACK 1 errors
+    - nolock             # Prevents v3 from trying to use the NLM portmapper
+    - noresvport
+
+node:
+  tolerateAllTaints: true

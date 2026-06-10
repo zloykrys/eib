@@ -1,0 +1,9 @@
+crdwebhook:
+  enabled: true
+  type: ClusterIP
+openshift: false
+global:
+  cattle:
+    systemDefaultRegistry: registry.rancher.com
+    url: https://rancher-dev.demo.com
+  systemDefaultRegistry: registry.rancher.com

@@ -1,0 +1,122 @@
+# Global Configuration
+global:
+  cattle:
+    clusterName: local
+    clusterId: local
+    url: https://rancher-dev.demo.com
+  systemDefaultRegistry: registry.rancher.com
+
+# Core NeuVector Settings
+rbac: true
+serviceAccount: neuvector
+leastPrivilege: false
+openshift: false
+
+# Certificates & Security
+autoGenerateCert: true
+internal:
+  autoGenerateCert: true
+  autoRotateCert: true
+  certmanager:
+    enabled: false
+
+# Controller Component
+controller:
+  enabled: true
+  replicas: 3
+  pvc:
+    enabled: true
+    storageClass: nfs-client
+    accessModes:
+      - ReadWriteMany
+  ingress:
+    enabled: true
+    host: neuvector-controller.demo.com
+    path: /
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            topologyKey: kubernetes.io/hostname
+            labelSelector:
+              matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                    - neuvector-controller-pod
+  ranchersso:
+    enabled: true
+  prime:
+    enabled: true
+
+# Enforcer Component (DaemonSet)
+enforcer:
+  enabled: true
+  securityContext:
+    privileged: true
+  tolerations:
+    - key: node-role.kubernetes.io/master
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/etcd
+      effect: NoSchedule
+
+# Manager (UI) Component
+manager:
+  enabled: true
+  svc:
+    type: ClusterIP
+    mgrServerPort: 8443
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+    host: neuvector-dev.demo.com
+    path: /
+    pathType: Prefix
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+  route:
+    enabled: true
+    termination: passthrough
+
+# Scanner Components
+cve:
+  scanner:
+    enabled: true
+    replicas: 2
+    resources:
+      limits:
+        cpu: "1"
+        memory: "4096Mi"
+      requests:
+        cpu: "500m"
+        memory: "1024Mi"
+  updater:
+    enabled: true
+    image:
+      repository: rancher/neuvector-updater
+      tag: 0.0.10
+    schedule: 0 0 * * *
+
+# Webhooks
+admissionwebhook:
+  type: ClusterIP
+  enabled: true
+crdwebhook:
+  enabled: true
+  type: ClusterIP
+
+# Container Runtime Configuration (Set these based on your cluster)
+containerd:
+  enabled: true
+  path: /run/k3s/containerd/containerd.sock
+k3s:
+  enabled: true
+crio:
+  enabled: false
+bottlerocket:
+  enabled: false

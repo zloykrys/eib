@@ -1,0 +1,24 @@
+global:
+  cattle:
+    clusterId: local
+    clusterName: local
+    systemDefaultRegistry: registry.rancher.com
+    url: https://rancher-dev.demo.com
+  systemDefaultRegistry: registry.rancher.com
+prometheus:
+  prometheusSpec:
+    retentionSize: 5GiB
+rke2ControllerManager:
+  enabled: true
+rke2Etcd:
+  enabled: true
+rke2IngressNginx:
+  enabled: true
+rke2Proxy:
+  enabled: true
+rke2Scheduler:
+  enabled: true
+windowsExporter:
+  enabled: false
+prometheus-windows-exporter:
+  enabled: false

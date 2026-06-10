@@ -1,0 +1,6 @@
+hostname: rancher-dev.demo.com
+bootstrapPassword: "admin"
+replicas: 1
+global.cattle.psp.enabled: "false"
+systemDefaultRegistry: registry.rancher.com
+useBundledSystemChart: true

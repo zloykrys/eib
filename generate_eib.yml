@@ -1,0 +1,12 @@
+---
+- name: Generate EIB definition from template
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars_files:
+    - secrets.yml
+  tasks:
+    - name: Render the EIB ISO definition
+      ansible.builtin.template:
+        src: eib-iso-definition.yaml.j2
+        dest: eib-iso-definition.yaml

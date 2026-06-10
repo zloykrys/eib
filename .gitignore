@@ -1,0 +1,5 @@
+# Ignore the local unencrypted secrets file
+vars/secrets.yml
+
+# Ignore the rendered configuration file containing plain secrets
+eib-iso-definition.yaml

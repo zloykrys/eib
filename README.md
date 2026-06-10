@@ -246,7 +246,7 @@ This command will outputs a flashable or mountable `eib-image.iso` inside your d
 
 ## 🚀 Deploying the Cluster
 
-You can start the nodes using the command line via `virt-install` (reference `install.txt` for the full node list parameters). 
+You can start the nodes using the command line via `virt-install` (reference `install.txt` for the full node list parameters. Define VMFOLDER variable to point to the folder with the ISO file and VM files). 
 
 > **Crucial:** Ensure the MAC addresses in your KVM configurations match the exact MAC addresses defined in your node network YAML files.
 
@@ -259,7 +259,7 @@ virt-install \
   --memory 12288 \
   --vcpus 8 \
   --cpu host-passthrough \
-  --disk path=$VMFOLDER$/qcows/rke2-1.qcow2,size=60,format=qcow2,bus=virtio \
+  --disk path=$VMFOLDER/qcows/rke2-1.qcow2,size=60,format=qcow2,bus=virtio \
   --os-variant slem6.2 \
   --network network=host-nat,model=virtio,mac=34:8A:B1:4B:16:E1 \
   --cdrom $VMFOLDER/eib-image.iso \

@@ -1,6 +1,6 @@
 # Edge Image Builder: RKE2 & Rancher Deployment
 
-This repository contains the configuration files and manifests required to build a custom Edge Image Builder (EIB) ISO. The resulting ISO deploys a highly available, airgapped RKE2 Kubernetes cluster with Rancher Manager, NeuVector, and CloudNativePG pre-configured.
+This repository contains the configuration files and manifests required to build a custom Edge Image Builder (EIB) ISO. The resulting ISO deploys a highly available, airgapped RKE2 Kubernetes cluster with Rancher Manager, NeuVector 5.5.2, and CloudNativePG pre-configured.
 
 It also deploys Harbor, Rancher Logging, Monitoring (Prometheus/Grafana/Alertmanager), Compliance Operator and NeuVector UI extension out of the box.
 
@@ -236,7 +236,7 @@ Once your `eib-iso-definition.yaml` file has been successfully rendered by Ansib
 ```bash
 podman run --rm -it --privileged \
   -v $CONFIG_DIR:/eib \
-  [registry.suse.com/edge/3.5/edge-image-builder:1.3.3](https://registry.suse.com/edge/3.5/edge-image-builder:1.3.3) build \
+  [registry.suse.com/edge/3.6/edge-image-builder:1.3.3.1](https://registry.suse.com/edge/3.6/edge-image-builder:1.3.3.1) build \
   --definition-file eib-iso-definition.yaml
 ```
 

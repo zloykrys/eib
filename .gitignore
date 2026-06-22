@@ -3,3 +3,12 @@ vars/secrets.yml
 
 # Ignore the rendered configuration file containing plain secrets
 eib-iso-definition.yaml
+
+# Ignore the SLE Micro binary
+base-images
+
+# Ignore the build folder
+_build
+
+# Ignore the actual ISO file
+eib-image.iso

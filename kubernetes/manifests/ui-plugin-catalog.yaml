@@ -23,7 +23,7 @@ spec:
       containers:
       - name: server
         # Points to your internal air-gap registry
-        image: registry.rancher.com/rancher/ui-plugin-catalog:4.7.0
+        image: registry.rancher.com/rancher/ui-plugin-catalog:4.15.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
@@ -59,9 +59,9 @@ metadata:
 spec:
   plugin:
     name: neuvector-ui-ext
-    version: "2.1.5"
+    version: "2.1.8"
     # Pointing to your internal air-gapped catalog service
-    endpoint: http://ui-plugin-catalog-svc.cattle-ui-plugin-system.svc.cluster.local:8080/plugin/neuvector-ui-ext-2.1.5
+    endpoint: http://ui-plugin-catalog-svc.cattle-ui-plugin-system.svc.cluster.local:8080/plugin/neuvector-ui-ext-2.1.8
     noAuth: false
     noCache: false
     metadata:

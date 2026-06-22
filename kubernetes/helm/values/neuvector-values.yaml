@@ -47,6 +47,9 @@ controller:
                   operator: In
                   values:
                     - neuvector-controller-pod
+  apisvc:
+    ctrlServerPort: 10443
+    type: ClusterIP
   ranchersso:
     enabled: true
   prime:

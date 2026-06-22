@@ -252,7 +252,7 @@ You can start the nodes using the command line via `virt-install` (reference `in
 
 **Start `rke2-1` First:** This host is flagged as the cluster initializer. Let it fully boot up and establish the cluster before turning on `rke2-2` and `rke2-3` to ensure proper cluster discovery.
 
-*** rke2-1 ***
+***rke2-1***
 ```bash
 virt-install \
   --connect qemu:///system \
@@ -269,7 +269,7 @@ virt-install \
   --noautoconsole
 ```
 
-*** rke2-2 ***
+***rke2-2***
 ```bash
 virt-install \
   --connect qemu:///system \
@@ -286,7 +286,7 @@ virt-install \
   --noautoconsole
 ```
 
-*** rke2-3 ***
+***rke2-3***
 ```bash
 virt-install \
   --connect qemu:///system \

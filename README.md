@@ -252,6 +252,7 @@ You can start the nodes using the command line via `virt-install` (reference `in
 
 **Start `rke2-1` First:** This host is flagged as the cluster initializer. Let it fully boot up and establish the cluster before turning on `rke2-2` and `rke2-3` to ensure proper cluster discovery.
 
+*** rke2-1 ***
 ```bash
 virt-install \
   --connect qemu:///system \
@@ -259,9 +260,43 @@ virt-install \
   --memory 12288 \
   --vcpus 8 \
   --cpu host-passthrough \
-  --disk path=$VMFOLDER/qcows/rke2-1.qcow2,size=60,format=qcow2,bus=virtio \
+  --disk path=$VMFOLDER/qcows/rke2-1.qcow2,size=80,format=qcow2,bus=virtio \
   --os-variant slem6.2 \
   --network network=host-nat,model=virtio,mac=34:8A:B1:4B:16:E1 \
+  --cdrom $VMFOLDER/eib-image.iso \
+  --graphics vnc \
+  --boot uefi,hd,cdrom \
+  --noautoconsole
+```
+
+*** rke2-2 ***
+```bash
+virt-install \
+  --connect qemu:///system \
+  --name rke2-2 \
+  --memory 12288 \
+  --vcpus 8 \
+  --cpu host-passthrough \
+  --disk path=$VMFOLDER/qcows/rke2-2.qcow2,size=80,format=qcow2,bus=virtio \
+  --os-variant slem6.2 \
+  --network network=host-nat,model=virtio,mac=34:8A:B1:4B:16:E2 \
+  --cdrom $VMFOLDER/eib-image.iso \
+  --graphics vnc \
+  --boot uefi,hd,cdrom \
+  --noautoconsole
+```
+
+*** rke2-3 ***
+```bash
+virt-install \
+  --connect qemu:///system \
+  --name rke2-3 \
+  --memory 12288 \
+  --vcpus 8 \
+  --cpu host-passthrough \
+  --disk path=$VMFOLDER/qcows/rke2-3.qcow2,size=80,format=qcow2,bus=virtio \
+  --os-variant slem6.2 \
+  --network network=host-nat,model=virtio,mac=34:8A:B1:4B:16:E3 \
   --cdrom $VMFOLDER/eib-image.iso \
   --graphics vnc \
   --boot uefi,hd,cdrom \

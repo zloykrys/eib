@@ -158,6 +158,10 @@ kubernetes:
 
 embeddedArtifactRegistry:
   registries:
+    - uri: registry.suse.com
+      authentication:
+        username: "{{ suse_registry_username }}"
+        password: "{{ suse_registry_password }}"
     - uri: dp.apps.rancher.io
       authentication:
         username: "{{ appco_repo_username }}" 
@@ -269,7 +273,7 @@ embeddedArtifactRegistry:
 # Metallb
     - name: registry.suse.com/edge/3.6/metallb-controller:v0.15.3
     - name: registry.suse.com/edge/3.6/metallb-speaker:v0.15.3
-    - name: registry.suse.com/edge/3.6/frr:10.4.1
+#    - name: registry.suse.com/edge/3.6/frr:10.4.1
     - name: registry.suse.com/edge/3.6/kube-rbac-proxy:0.19.1
 
 # NeuVector

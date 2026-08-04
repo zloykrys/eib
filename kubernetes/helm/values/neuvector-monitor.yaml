@@ -1,0 +1,4 @@
+exporter:
+  enabled: true
+  apiSvc: neuvector-svc-controller.cattle-neuvector-system:10443
+  ctrlSecretName: neuvector-exporter-credentials

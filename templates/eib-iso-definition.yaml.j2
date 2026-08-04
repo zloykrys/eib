@@ -51,6 +51,9 @@ kubernetes:
         repositoryName: jetstack
         targetNamespace: cert-manager
         version: 1.20.1
+
+# SUSE Security bits
+
       - name: neuvector-crd
         version: 109.0.2+up2.10.2
         repositoryName: rancher-charts
@@ -71,12 +74,18 @@ kubernetes:
         targetNamespace: cattle-neuvector-system
         createNamespace: true
         installationNamespace: kube-system
+        valuesFile: neuvector-monitor.yaml
+
+# CloudNativePG
+
       - name: cloudnative-pg
         repositoryName: appco
         version: 0.28.3
         targetNamespace: cloudnativepg
         createNamespace: true
         installationNamespace: kube-system
+
+# CSI driver
       - name: kubernetes-csi-driver-nfs
         repositoryName: appco
         version: 4.13.3
@@ -84,6 +93,7 @@ kubernetes:
         createNamespace: true
         installationNamespace: kube-system
         valuesFile: kubernetes-csi-driver-nfs-values.yaml
+
 # compliance operator
 #
       - name: rancher-compliance-crd

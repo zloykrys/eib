@@ -1,6 +1,6 @@
 # Edge Image Builder: RKE2 & Rancher Deployment
 
-This repository contains the configuration files and manifests required to build a custom Edge Image Builder (EIB) ISO. The resulting ISO deploys a highly available, airgapped RKE2 Kubernetes cluster with Rancher Manager, NeuVector 5.5.2, and CloudNativePG pre-configured.
+This repository contains the configuration files and manifests required to build a custom Edge Image Builder (EIB) ISO. The resulting ISO deploys a highly available, airgapped RKE2 Kubernetes cluster with Rancher Manager (2.14.1), NeuVector 5.5.2, and CloudNativePG pre-configured.
 
 It also deploys Harbor, Rancher Logging, Monitoring (Prometheus/Grafana/Alertmanager), Compliance Operator and NeuVector UI extension out of the box.
 
@@ -19,6 +19,7 @@ It also deploys Harbor, Rancher Logging, Monitoring (Prometheus/Grafana/Alertman
 | `kubernetes/helm/values/rancher-values.yaml` | Rancher Helm chart values (defines URL, internal registry, and bootstrap admin password). |
 | `kubernetes/helm/values/neuvector-crd.yaml` | NeuVector Custom Resource Definitions (CRDs) Helm chart values. |
 | `kubernetes/helm/values/neuvector-values.yaml` | NeuVector Helm chart values. |
+| `kubernetes/helm/values/neuvector-monitor.yaml` | NeuVector Monitoring (aka Prometheus Exporter) Helm chart values. |
 | `kubernetes/helm/values/kubernetes-csi-driver-nfs-values.yaml` | NFS provisioner setup to connect to the shared storage for NeuVector and PostgreSQL PVCs. |
 | `network/rke2-*.demo.com.yaml` | Node-specific network configuration setups for `rke2-1`, `rke2-2`, and `rke2-3`. |
 
@@ -110,8 +111,33 @@ Create a playbook named `generate_eib.yml` in your repository root:
   connection: local
   gather_facts: no
   vars_files:
-    - vars/secrets.yml
+    - secrets.yml
   tasks:
+    - name: Ensure kubernetes manifests directory exists
+      ansible.builtin.file:
+        path: kubernetes/manifests
+        state: directory
+        mode: '0755'
+
+    - name: Set random NeuVector exporter password fact if not defined
+      ansible.builtin.set_fact:
+        neuvector_exporter_password: "{{ neuvector_exporter_password | default(lookup('ansible.builtin.password', '/dev/null length=20 chars=ascii_letters,digits')) }}"
+
+    - name: Generate NeuVector Exporter Secret manifest for EIB
+      ansible.builtin.copy:
+        dest: kubernetes/manifests/neuvector-exporter-secret.yaml
+        mode: '0600'
+        content: |
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: neuvector-exporter-credentials
+            namespace: cattle-neuvector-system
+          type: Opaque
+          stringData:
+            username: "admin"
+            password: "{{ neuvector_exporter_password }}"
+
     - name: Render the EIB ISO definition
       ansible.builtin.template:
         src: eib-iso-definition.yaml.j2

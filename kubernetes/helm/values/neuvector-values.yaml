@@ -54,6 +54,16 @@ controller:
     enabled: true
   prime:
     enabled: true
+  configmap:
+    enabled: true
+    data:
+      userinitcfg.yaml: |
+        users:
+          - Fullname: "Prometheus Exporter"
+            Username: "exporter"
+            Password: "{{ neuvector_exporter_password }}" 
+            Role: "reader"
+            Timeout: 300
 
 # Enforcer Component (DaemonSet)
 enforcer:

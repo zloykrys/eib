@@ -12,11 +12,12 @@
         state: directory
         mode: '0755'
 
-    - name: Set random NeuVector exporter password fact if not defined
+    - name: Set random NeuVector exporter password
       ansible.builtin.set_fact:
         neuvector_exporter_password: "{{ neuvector_exporter_password | default(lookup('ansible.builtin.password', '/dev/null length=20 chars=ascii_letters,digits')) }}"
 
-    - name: Generate NeuVector Exporter Secret manifest for EIB
+
+    - name: Generate NeuVector Exporter Secret manifest
       ansible.builtin.copy:
         dest: kubernetes/manifests/neuvector-exporter-secret.yaml
         mode: '0600'
@@ -28,8 +29,10 @@
             namespace: cattle-neuvector-system
           type: Opaque
           stringData:
-            username: "admin"
+            username: "exporter"
             password: "{{ neuvector_exporter_password }}"
+            CTRL_USERNAME: "exporter"
+            CTRL_PASSWORD: "{{ neuvector_exporter_password }}"
 
     - name: Render the EIB ISO definition
       ansible.builtin.template:

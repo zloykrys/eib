@@ -1,5 +1,5 @@
 ---
-- name: Generate EIB definition from template
+- name: Generate EIB definition and secrets from templates
   hosts: localhost
   connection: local
   gather_facts: no
@@ -12,12 +12,34 @@
         state: directory
         mode: '0755'
 
-    - name: Set random NeuVector exporter password
+    - name: Generate random NeuVector exporter password for this build
       ansible.builtin.set_fact:
-        neuvector_exporter_password: "{{ neuvector_exporter_password | default(lookup('ansible.builtin.password', '/dev/null length=20 chars=ascii_letters,digits')) }}"
+        neuvector_exporter_password: "{{ neuvector_exporter_password | default(lookup('ansible.builtin.password', '/dev/null length=24 chars=ascii_letters,digits')) }}"
 
+    # 1. Secret named 'neuvector-init' - NeuVector controller automatically reads this on first boot
+    - name: Generate NeuVector Controller Init Secret
+      ansible.builtin.copy:
+        dest: kubernetes/manifests/neuvector-init-secret.yaml
+        mode: '0600'
+        content: |
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: neuvector-init
+            namespace: cattle-neuvector-system
+          type: Opaque
+          stringData:
+            userinitcfg.yaml: |
+              always_reload: true
+              users:
+                - Fullname: "Prometheus Exporter"
+                  Username: "exporter"
+                  Password: "{{ neuvector_exporter_password }}"
+                  Role: "reader"
+                  Timeout: 300
 
-    - name: Generate NeuVector Exporter Secret manifest
+    # 2. Secret named 'neuvector-exporter-credentials' - Mounted by the exporter chart
+    - name: Generate NeuVector Exporter Credentials Secret
       ansible.builtin.copy:
         dest: kubernetes/manifests/neuvector-exporter-secret.yaml
         mode: '0600'

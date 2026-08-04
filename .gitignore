@@ -15,3 +15,4 @@ eib-image.iso
 
 # ignore the auto-generated secret for Prometheus exporter
 kubernetes/manifests/neuvector-exporter-secret.yaml
+kubernetes/manifests/neuvector-init-secret.yaml

@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: neuvector-prometheus-exporter
+  namespace: cattle-neuvector-system
+  labels:
+    release: rancher-monitoring
+spec:
+  selector:
+    matchLabels:
+      app: neuvector-prometheus-exporter
+  endpoints:
+  - port: metrics  # Matches service port name
+    path: /metrics
+    interval: 30s

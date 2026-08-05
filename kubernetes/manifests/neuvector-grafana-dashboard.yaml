@@ -1,0 +1,158 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: neuvector-grafana-dashboard
+  namespace: cattle-dashboards
+  labels:
+    # Tells Rancher Monitoring's Grafana sidecar to auto-import this dashboard
+    grafana_dashboard: "1"
+data:
+  neuvector-overview.json: |-
+    {
+      "annotations": { "list": [] },
+      "editable": true,
+      "graphTooltip": 1,
+      "id": null,
+      "links": [],
+      "liveNow": false,
+      "panels": [
+        {
+          "title": "Hosts",
+          "type": "stat",
+          "gridPos": { "h": 4, "w": 4, "x": 0, "y": 0 },
+          "id": 1,
+          "targets": [
+            {
+              "datasource": { "type": "prometheus", "uid": "prometheus" },
+              "expr": "nv_summary_hosts",
+              "refId": "A"
+            }
+          ],
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "reduceOptions": { "calcs": ["lastNotNull"] }
+          }
+        },
+        {
+          "title": "Controllers",
+          "type": "stat",
+          "gridPos": { "h": 4, "w": 4, "x": 4, "y": 0 },
+          "id": 2,
+          "targets": [
+            {
+              "datasource": { "type": "prometheus", "uid": "prometheus" },
+              "expr": "nv_summary_controllers",
+              "refId": "A"
+            }
+          ],
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "reduceOptions": { "calcs": ["lastNotNull"] }
+          }
+        },
+        {
+          "title": "Enforcers",
+          "type": "stat",
+          "gridPos": { "h": 4, "w": 4, "x": 8, "y": 0 },
+          "id": 3,
+          "targets": [
+            {
+              "datasource": { "type": "prometheus", "uid": "prometheus" },
+              "expr": "nv_summary_enforcers",
+              "refId": "A"
+            }
+          ],
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "reduceOptions": { "calcs": ["lastNotNull"] }
+          }
+        },
+        {
+          "title": "Pods Monitored",
+          "type": "stat",
+          "gridPos": { "h": 4, "w": 6, "x": 12, "y": 0 },
+          "id": 4,
+          "targets": [
+            {
+              "datasource": { "type": "prometheus", "uid": "prometheus" },
+              "expr": "nv_summary_pods",
+              "refId": "A"
+            }
+          ],
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "reduceOptions": { "calcs": ["lastNotNull"] }
+          }
+        },
+        {
+          "title": "Disconnected Enforcers",
+          "type": "stat",
+          "gridPos": { "h": 4, "w": 6, "x": 18, "y": 0 },
+          "id": 5,
+          "targets": [
+            {
+              "datasource": { "type": "prometheus", "uid": "prometheus" },
+              "expr": "nv_summary_disconnectedEnforcers",
+              "refId": "A"
+            }
+          ],
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "reduceOptions": { "calcs": ["lastNotNull"] }
+          }
+        },
+        {
+          "title": "Network Traffic (Bytes/min)",
+          "type": "timeseries",
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+          "id": 6,
+          "targets": [
+            {
+              "datasource": { "type": "prometheus", "uid": "prometheus" },
+              "expr": "sum(rate(nv_conversation_bytes[1m])) * 60",
+              "legendFormat": "Bytes/Min",
+              "refId": "A"
+            }
+          ]
+        },
+        {
+          "title": "Controller Memory Usage",
+          "type": "timeseries",
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
+          "id": 7,
+          "targets": [
+            {
+              "datasource": { "type": "prometheus", "uid": "prometheus" },
+              "expr": "nv_controller_memory",
+              "legendFormat": "{{display}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "bytes"
+            }
+          }
+        }
+      ],
+      "refresh": "10s",
+      "schemaVersion": 38,
+      "style": "dark",
+      "tags": ["neuvector", "security"],
+      "time": {
+        "from": "now-1h",
+        "to": "now"
+      },
+      "title": "NeuVector Security Overview",
+      "uid": "neuvector-security-overview"
+    }

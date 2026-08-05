@@ -2,3 +2,9 @@ exporter:
   enabled: true
   apiSvc: neuvector-svc-controller.cattle-neuvector-system:10443
   ctrlSecretName: neuvector-exporter-credentials
+  serviceMonitor:
+    enabled: true
+    interval: 30s
+    port: metrics
+    labels:
+      release: rancher-monitoring

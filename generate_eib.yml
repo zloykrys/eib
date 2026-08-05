@@ -32,13 +32,11 @@
             userinitcfg.yaml: |
               always_reload: true
               users:
-                - Fullname: "Prometheus Exporter"
-                  Username: "exporter"
+                - Fullname: "exporter"   # MUST be 'exporter' so the REST API handle matches
                   Password: "{{ neuvector_exporter_password }}"
                   Role: "reader"
                   Timeout: 300
 
-    # 2. Secret named 'neuvector-exporter-credentials' - Mounted by the exporter chart
     - name: Generate NeuVector Exporter Credentials Secret
       ansible.builtin.copy:
         dest: kubernetes/manifests/neuvector-exporter-secret.yaml
@@ -51,8 +49,6 @@
             namespace: cattle-neuvector-system
           type: Opaque
           stringData:
-            username: "exporter"
-            password: "{{ neuvector_exporter_password }}"
             CTRL_USERNAME: "exporter"
             CTRL_PASSWORD: "{{ neuvector_exporter_password }}"
 

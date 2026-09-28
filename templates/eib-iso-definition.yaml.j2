@@ -178,13 +178,14 @@ embeddedArtifactRegistry:
         username: "{{ appco_repo_username }}" 
         password: "{{ appco_repo_password }}"
   images:
-    - name: registry.rancher.com/rancher/ali-operator:v1.15.0
+- name: registry.rancher.com/rancher/ali-operator:v1.15.0
     - name: registry.rancher.com/rancher/appco-alertmanager:0.30.0-12.16
     - name: registry.rancher.com/rancher/appco-grafana:12.3.1-1.12
     - name: registry.rancher.com/rancher/appco-k8s-sidecar:2.1.2-1.10
+    - name: registry.rancher.com/rancher/appco-kube-rbac-proxy:0.20.1-16.14
     - name: registry.rancher.com/rancher/appco-kube-rbac-proxy:0.20.1-16.15
     - name: registry.rancher.com/rancher/appco-kube-state-metrics:2.17.0-10.14
-    - name: registry.rancher.com/rancher/appco-kubernetes-cluster-autoscaler:1.36.0-4.1
+    - name: registry.rancher.com/rancher/appco-kubernetes-cluster-autoscaler:1.35.0-4.1
     - name: registry.rancher.com/rancher/appco-node-exporter:1.10.2-14.3
     - name: registry.rancher.com/rancher/appco-redis:8.0.3-2.1
     - name: registry.rancher.com/rancher/azureserviceoperator:v2.18.0
@@ -227,7 +228,6 @@ embeddedArtifactRegistry:
     - name: registry.rancher.com/rancher/kube-api-auth:v0.15.1
     - name: registry.rancher.com/rancher/kubeadm-bootstrap-controller:v1.13.3
     - name: registry.rancher.com/rancher/kubeadm-control-plane-controller:v1.13.3
-    - name: registry.rancher.com/rancher/kubectl:v1.36.3
     - name: registry.rancher.com/rancher/kuberlr-kubectl:v8.1.1
     - name: registry.rancher.com/rancher/local-path-provisioner:v0.0.36
     - name: registry.rancher.com/rancher/machine:v0.15.0-rancher145.1
@@ -272,6 +272,7 @@ embeddedArtifactRegistry:
     - name: registry.rancher.com/rancher/system-upgrade-controller:v0.20.1
     - name: registry.rancher.com/rancher/turtles:v0.27.1
     - name: registry.rancher.com/rancher/ui-plugin-catalog:4.37.0
+    - name: registry.rancher.com/rancher/kube-webhook-certgen:v1.14.5-hardened2
     - name: registry.rancher.com/rancher/mirrored-sonobuoy-sonobuoy:v0.57.5
   
 # Metallb

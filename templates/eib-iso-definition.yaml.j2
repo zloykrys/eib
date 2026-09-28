@@ -178,7 +178,7 @@ embeddedArtifactRegistry:
         username: "{{ appco_repo_username }}" 
         password: "{{ appco_repo_password }}"
   images:
-- name: registry.rancher.com/rancher/ali-operator:v1.15.0
+    - name: registry.rancher.com/rancher/ali-operator:v1.15.0
     - name: registry.rancher.com/rancher/appco-alertmanager:0.30.0-12.16
     - name: registry.rancher.com/rancher/appco-grafana:12.3.1-1.12
     - name: registry.rancher.com/rancher/appco-k8s-sidecar:2.1.2-1.10

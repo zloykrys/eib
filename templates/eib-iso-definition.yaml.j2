@@ -18,10 +18,12 @@ operatingSystem:
   users:
     - username: root
       encryptedPassword: $6$jHugJNNd3HElGsUZ$eodjVe4te5ps44SVcWshdfWizrP.xAyd71CVEXazBJ/.v799/WRCBXxfYmunlBO2yp1hm/zb4r8EmnrrNCF.P/
-      sshKeys:
-        - "{{ root_ssh_key }}"
     - username: user
       encryptedPassword: $6$jHugJNNd3HElGsUZ$eodjVe4te5ps44SVcWshdfWizrP.xAyd71CVEXazBJ/.v799/WRCBXxfYmunlBO2yp1hm/zb4r8EmnrrNCF.P/
+      createHomeDir: true
+      sshKeys:
+        - "{{ user_ssh_key }}"
+
 kubernetes:
   version: v1.36.3+rke2r1
   network:

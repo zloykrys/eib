@@ -1,6 +1,6 @@
 # Edge Image Builder: RKE2 & Rancher Deployment
 
-This repository contains the configuration files and manifests required to build a custom Edge Image Builder (EIB) ISO. The resulting ISO deploys a highly available, airgapped RKE2 Kubernetes cluster with Rancher Manager (2.14.1), NeuVector 5.5.2, and CloudNativePG pre-configured.
+This repository contains the configuration files and manifests required to build a custom Edge Image Builder (EIB) ISO. The resulting ISO deploys a highly available, airgapped RKE2 Kubernetes cluster with Rancher Manager (2.15.1), NeuVector 5.6.1, and CloudNativePG pre-configured.
 
 It also deploys Harbor, Rancher Logging, Monitoring (Prometheus/Grafana/Alertmanager), Compliance Operator and NeuVector UI extension out of the box.
 
@@ -87,11 +87,16 @@ Populate `$CONFIG_DIR/vars/secrets.yml` with your specific credentials:
 scc_registration_code: "YOUR_60_DAY_EVAL_KEY"
 appco_repo_username: "YOUR_APPCO_USERNAME"
 appco_repo_password: "YOUR_BASE64_ENCODED_APPCO_PASSWORD"
+suse_registry_username: "YOUR_SUSE_REGISTRY_USER NAME"
+suse_registry_password: "YOUR_SUSE_REGISTRY_PASSWORD"
+user_ssh_key: "SSH KEY (public) to access the nodes"
 ```
 
 #### Credential Details:
-* **SCC Registration (`scc_registration_code`):** Obtained from the SUSE Customer Center (SCC). This provides a 60-day evaluation key for registering your SLE Micro instances.
+* **SCC Registration (`scc_registration_code`) and SUSE REGISTRY USER NAME:** Obtained from the SUSE Customer Center (SCC). This provides a 60-day evaluation key for registering your SLE Micro instances.
 * **AppCo Authentication (`appco_*` & `artifact_registry_*`):** The pull credentials (username and base64-encoded secret token) required to download assets from internal SUSE/Rancher registry endpoints and Helm charts.
+* **SSH Key (`user_ssh_key`):** By default, SLE Micro disables remote root login. Set your public SSH key here to be able to access the cluster nodes remotely as user.
+
 
 *(Optional)* If you want to safely track this file in Git instead of ignoring it completely, you can encrypt it using Ansible Vault:
 ```bash
@@ -262,7 +267,7 @@ Once your `eib-iso-definition.yaml` file has been successfully rendered by Ansib
 ```bash
 podman run --rm -it --privileged \
   -v $CONFIG_DIR:/eib \
-  [registry.suse.com/edge/3.6/edge-image-builder:1.3.3.1](https://registry.suse.com/edge/3.6/edge-image-builder:1.3.3.1) build \
+  [registry.suse.com/edge/3.6/edge-image-builder:1.3.4](https://registry.suse.com/edge/3.6/edge-image-builder:1.3.4) build \
   --definition-file eib-iso-definition.yaml
 ```
 

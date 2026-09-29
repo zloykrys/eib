@@ -20,6 +20,9 @@ internal:
   certmanager:
     enabled: false
 
+# ingress controller - set to traefik
+ingressController: traefik
+
 # Controller Component
 controller:
   enabled: true
@@ -33,8 +36,6 @@ controller:
     enabled: true
     host: neuvector-controller.demo.com
     path: /
-    annotations:
-      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
   affinity:
     podAntiAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
@@ -86,12 +87,9 @@ manager:
     mgrServerPort: 8443
   ingress:
     enabled: true
-    ingressClassName: "nginx"
     host: neuvector-dev.demo.com
     path: /
     pathType: Prefix
-    annotations:
-      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
   route:
     enabled: true
     termination: passthrough

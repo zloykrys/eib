@@ -23,7 +23,7 @@ spec:
       containers:
       - name: server
         # Points to your internal air-gap registry
-        image: registry.rancher.com/rancher/ui-plugin-catalog:4.33.0
+        image: registry.rancher.com/rancher/ui-plugin-catalog:4.37.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080

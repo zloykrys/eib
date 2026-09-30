@@ -1,25 +1,19 @@
 apiVersion: helm.cattle.io/v1
 kind: HelmChartConfig
 metadata:
-  name: rke2-traefik 
+  name: rke2-traefik
   namespace: kube-system
 spec:
   failurePolicy: reinstall
   valuesContent: |-
-    deployment:
-      replicas: 3
     service:
       enabled: true
       type: LoadBalancer
       labels:
-        # Satisfies the MetalLB pool selector
         serviceType: kubernetes-vip
       annotations:
-        # Allows Traefik to share the VIP with kubernetes-vip
         metallb.universe.tf/allow-shared-ip: "rke2-shared-vip"
         metallb.io/allow-shared-ip: "rke2-shared-vip"
       spec:
+        type: LoadBalancer
         externalTrafficPolicy: Cluster
-        # REMOVE or COMMENT OUT loadBalancerIP if using dynamic IP from MetalLB!
-        # Only uncomment if hardcoding a static IP:
-        # loadBalancerIP: 172.16.33.10

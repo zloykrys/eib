@@ -34,6 +34,7 @@ controller:
       - ReadWriteMany
   ingress:
     enabled: true
+    ingressClassName: "traefik"
     host: neuvector-controller.demo.com
     path: /
   affinity:
@@ -51,7 +52,7 @@ controller:
   apisvc:
     annotations:
       traefik.ingress.kubernetes.io/service.serversscheme: https
-      traefik.ingress.kubernetes.io/service.serverstransport: skip-verify-transport@kubernetescrd
+      traefik.ingress.kubernetes.io/service.serverstransport: default-skip-verify-transport@kubernetescrd
     ctrlServerPort: 10443
     type: ClusterIP
   ranchersso:
@@ -90,9 +91,10 @@ manager:
     mgrServerPort: 8443
     annotations:
       traefik.ingress.kubernetes.io/service.serversscheme: https
-      traefik.ingress.kubernetes.io/service.serverstransport: skip-verify-transport@kubernetescrd
+      traefik.ingress.kubernetes.io/service.serverstransport: default-skip-verify-transport@kubernetescrd
   ingress:
     enabled: true
+    ingressClassName: "traefik"
     host: neuvector-dev.demo.com
     path: /
     pathType: Prefix

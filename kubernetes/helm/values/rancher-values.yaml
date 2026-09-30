@@ -4,3 +4,8 @@ replicas: 1
 global.cattle.psp.enabled: "false"
 systemDefaultRegistry: registry.rancher.com
 useBundledSystemChart: true
+extraEnv:
+  - name: CATTLE_EULA_AGREED
+    value: "2026-09-30T10:00:00Z"
+  - name: CATTLE_TELEMETRY_OPT
+    value: "out"

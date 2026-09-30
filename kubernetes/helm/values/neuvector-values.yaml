@@ -49,6 +49,9 @@ controller:
                   values:
                     - neuvector-controller-pod
   apisvc:
+    annotations:
+      traefik.ingress.kubernetes.io/service.serversscheme: https
+      traefik.ingress.kubernetes.io/service.serverstransport: skip-verify-transport@kubernetescrd
     ctrlServerPort: 10443
     type: ClusterIP
   ranchersso:
@@ -85,6 +88,9 @@ manager:
   svc:
     type: ClusterIP
     mgrServerPort: 8443
+    annotations:
+      traefik.ingress.kubernetes.io/service.serversscheme: https
+      traefik.ingress.kubernetes.io/service.serverstransport: skip-verify-transport@kubernetescrd
   ingress:
     enabled: true
     host: neuvector-dev.demo.com

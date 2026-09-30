@@ -40,6 +40,28 @@ kubernetes:
   manifests:
     urls:
     - https://github.com/cert-manager/cert-manager/releases/download/v1.20.1/cert-manager.crds.yaml
+    manifests:
+      # Bypasses the "first login" password reset wizard
+      - |
+        apiVersion: management.cattle.io/v3
+        kind: Setting
+        metadata:
+          name: first-login
+        value: "false"
+      # Accepts the Rancher EULA automatically
+      - |
+        apiVersion: management.cattle.io/v3
+        kind: Setting
+        metadata:
+          name: eula-agreed
+        value: "true"
+      # (Optional) Opts out of telemetry since the UI prompt is skipped
+      - |
+        apiVersion: management.cattle.io/v3
+        kind: Setting
+        metadata:
+          name: telemetry-opt
+        value: "out"
   helm:
     charts:
       - name: rancher

@@ -59,13 +59,33 @@ metadata:
 spec:
   plugin:
     name: neuvector-ui-ext
-    version: "2.2.0"
+    version: 2.2.1
     # Pointing to your internal air-gapped catalog service
-    endpoint: http://ui-plugin-catalog-svc.cattle-ui-plugin-system.svc.cluster.local:8080/plugin/neuvector-ui-ext-2.2.0
+    endpoint: http://ui-plugin-catalog-svc.cattle-ui-plugin-system:8080/plugin/neuvector-ui-ext-2.2.1
     noAuth: false
     noCache: false
     metadata:
       catalog.cattle.io/display-name: NeuVector UI Extension
+      catalog.cattle.io/kube-version: '>= v1.16.0-0'
+      catalog.cattle.io/rancher-version: '>= 2.10.0-0'
+      catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
+---
+apiVersion: catalog.cattle.io/v1
+kind: UIPlugin
+metadata:
+  name: harvester
+  namespace: cattle-ui-plugin-system
+spec:
+  plugin:
+    name: harvester
+    version: 1.8.2
+    # Pointing to your internal air-gapped catalog service
+    compressedEndpoint: https://raw.githubusercontent.com/harvester/harvester-ui-extension/gh-pages/extensions/harvester/1.8.2.tgz
+    endpoint: http://ui-plugin-catalog-svc.cattle-ui-plugin-system:8080/plugin/harvester-1.8.2
+    noAuth: false
+    noCache: false
+    metadata:
+      catalog.cattle.io/display-name: Harvester
       catalog.cattle.io/kube-version: '>= v1.16.0-0'
       catalog.cattle.io/rancher-version: '>= 2.10.0-0'
       catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'

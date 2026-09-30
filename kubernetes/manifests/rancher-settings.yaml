@@ -1,0 +1,17 @@
+apiVersion: management.cattle.io/v3
+kind: Setting
+metadata:
+  name: first-login
+value: "false"
+---
+apiVersion: management.cattle.io/v3
+kind: Setting
+metadata:
+  name: eula-agreed
+value: "true"
+---
+apiVersion: management.cattle.io/v3
+kind: Setting
+metadata:
+  name: telemetry-opt
+value: "out"

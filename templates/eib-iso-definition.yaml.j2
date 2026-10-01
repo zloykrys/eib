@@ -168,15 +168,16 @@ kubernetes:
           password: "{{ appco_repo_password }}"
 
 embeddedArtifactRegistry:
-  registries:
-    - uri: registry.suse.com
-      authentication:
-        username: "{{ suse_registry_username }}"
-        password: "{{ suse_registry_password }}"
-    - uri: dp.apps.rancher.io
-      authentication:
-        username: "{{ appco_repo_username }}" 
-        password: "{{ appco_repo_password }}"
+#  registries:
+#    - uri: registry.suse.com
+#      authentication:
+#        username: "{{ suse_registry_username }}"
+#        password: "{{ suse_registry_password }}"
+#    - uri: dp.apps.rancher.io
+#      authentication:
+#        username: "{{ appco_repo_username }}" 
+#        password: "{{ appco_repo_password }}"
+        
   images:
     - name: registry.rancher.com/rancher/ali-operator:v1.15.0
     - name: registry.rancher.com/rancher/appco-alertmanager:0.30.0-12.16
@@ -275,12 +276,6 @@ embeddedArtifactRegistry:
     - name: registry.rancher.com/rancher/kube-webhook-certgen:v1.14.5-hardened2
     - name: registry.rancher.com/rancher/mirrored-sonobuoy-sonobuoy:v0.57.5
   
-# Metallb
-#    - name: registry.suse.com/edge/3.7/metallb-controller:v0.16.1
-#    - name: registry.suse.com/edge/3.7/metallb-speaker:v0.16.1
-#    - name: registry.suse.com/edge/3.7/frr:10.4.1
-#    - name: registry.suse.com/edge/3.7/kube-rbac-proxy:0.19.1
-
 # NeuVector
     - name: registry.rancher.com/rancher/neuvector-compliance-config:1.0.16
     - name: registry.rancher.com/rancher/neuvector-controller:5.6.1
@@ -291,28 +286,3 @@ embeddedArtifactRegistry:
     - name: registry.rancher.com/rancher/neuvector-scanner:6
     - name: registry.rancher.com/rancher/neuvector-updater:0.0.14
 
-# CloudNativePG
-    - name: dp.apps.rancher.io/containers/cloudnative-pg:1.30.1-3.2
-    - name: dp.apps.rancher.io/containers/pgbouncer:1.26.0-12.2
-    - name: dp.apps.rancher.io/containers/postgresql:18.6-16.1
-
-# NFS StorageClass
-#    - name: dp.apps.rancher.io/containers/kubernetes-csi-driver-nfs:4.13.3-14.2
-#    - name: dp.apps.rancher.io/containers/kubernetes-csi-external-provisioner:6.1.0-2.2
-#    - name: dp.apps.rancher.io/containers/kubernetes-csi-external-resizer:2.0.0-2.2
-#    - name: dp.apps.rancher.io/containers/kubernetes-csi-external-snapshot-controller:8.4.0-10.2
-#    - name: dp.apps.rancher.io/containers/kubernetes-csi-external-snapshotter:8.4.0-9.2
-#    - name: dp.apps.rancher.io/containers/kubernetes-csi-livenessprobe:2.17.0-9.2
-#    - name: dp.apps.rancher.io/containers/kubernetes-csi-node-driver-registrar:2.15.0-9.2
-
-# Harbor registry
-#    - name: dp.apps.rancher.io/containers/harbor-core:2.15.1-4.1
-#    - name: dp.apps.rancher.io/containers/harbor-db:2.15.1-4.1
-#    - name: dp.apps.rancher.io/containers/harbor-exporter:2.15.1-4.1
-#    - name: dp.apps.rancher.io/containers/harbor-jobservice:2.15.1-4.1
-#    - name: dp.apps.rancher.io/containers/harbor-portal:2.15.1-4.1
-#    - name: dp.apps.rancher.io/containers/harbor-registry:2.15.1-4.1
-#    - name: dp.apps.rancher.io/containers/harbor-registryctl:2.15.1-4.1
-#    - name: dp.apps.rancher.io/containers/harbor-trivy-adapter:2.15.1-4.1
-#    - name: dp.apps.rancher.io/containers/nginx:1.29.8-7.1
-#    - name: dp.apps.rancher.io/containers/redis:8.6.4-6.1

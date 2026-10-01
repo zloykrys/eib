@@ -1,8 +1,11 @@
 # Edge Image Builder: RKE2 & Rancher Deployment
 
-This repository contains the configuration files and manifests required to build a custom Edge Image Builder (EIB) ISO. The resulting ISO deploys a highly available, airgapped RKE2 Kubernetes cluster with Rancher Manager (2.15.1), NeuVector 5.6.1, and CloudNativePG pre-configured.
+This repository contains the configuration files and manifests required to build a custom Edge Image Builder (EIB) ISO.
+The resulting ISO deploys a highly available, airgapped RKE2 Kubernetes cluster with Rancher Manager (2.15.1) and NeuVector 5.6.1 pre-configured.
 
-It also deploys Harbor, Rancher Logging, Monitoring (Prometheus/Grafana/Alertmanager), Compliance Operator and NeuVector UI extension out of the box.
+It also deploys Harbor, Rancher Logging and Monitoring (Prometheus/Grafana/Alertmanager), Compliance Operator and NeuVector UI extension out of the box.
+
+This build decouples AppCo from EIB build (look at other branches that have AppCo images for examples).
 
 ---
 
@@ -20,7 +23,7 @@ It also deploys Harbor, Rancher Logging, Monitoring (Prometheus/Grafana/Alertman
 | `kubernetes/helm/values/neuvector-crd.yaml` | NeuVector Custom Resource Definitions (CRDs) Helm chart values. |
 | `kubernetes/helm/values/neuvector-values.yaml` | NeuVector Helm chart values. |
 | `kubernetes/helm/values/neuvector-monitor.yaml` | NeuVector Monitoring (aka Prometheus Exporter) Helm chart values. |
-| `kubernetes/helm/values/kubernetes-csi-driver-nfs-values.yaml` | NFS provisioner setup to connect to the shared storage for NeuVector and PostgreSQL PVCs. |
+| `kubernetes/helm/values/kubernetes-csi-driver-nfs-values.yaml` | NFS provisioner setup to connect to the shared storage for NeuVector and Harbor PVCs |
 | `network/rke2-*.demo.com.yaml` | Node-specific network configuration setups for `rke2-1`, `rke2-2`, and `rke2-3`. |
 
 ---
@@ -85,8 +88,6 @@ Populate `$CONFIG_DIR/vars/secrets.yml` with your specific credentials:
 
 ```yaml
 scc_registration_code: "YOUR_60_DAY_EVAL_KEY"
-appco_repo_username: "YOUR_APPCO_USERNAME"
-appco_repo_password: "YOUR_BASE64_ENCODED_APPCO_PASSWORD"
 suse_registry_username: "YOUR_SUSE_REGISTRY_USER NAME"
 suse_registry_password: "YOUR_SUSE_REGISTRY_PASSWORD"
 user_ssh_key: "SSH KEY (public) to access the nodes"

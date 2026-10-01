@@ -3,7 +3,7 @@
 This repository contains the configuration files and manifests required to build a custom Edge Image Builder (EIB) ISO.
 The resulting ISO deploys a highly available, airgapped RKE2 Kubernetes cluster with Rancher Manager (2.15.1) and NeuVector 5.6.1 pre-configured.
 
-It also deploys Harbor, Rancher Logging and Monitoring (Prometheus/Grafana/Alertmanager), Compliance Operator and NeuVector UI extension out of the box.
+It also deploys Rancher Logging and Monitoring (Prometheus/Grafana/Alertmanager), Compliance Operator and NeuVector UI extension out of the box.
 
 This build decouples AppCo from EIB build (look at other branches that have AppCo images for examples).
 
@@ -23,7 +23,7 @@ This build decouples AppCo from EIB build (look at other branches that have AppC
 | `kubernetes/helm/values/neuvector-crd.yaml` | NeuVector Custom Resource Definitions (CRDs) Helm chart values. |
 | `kubernetes/helm/values/neuvector-values.yaml` | NeuVector Helm chart values. |
 | `kubernetes/helm/values/neuvector-monitor.yaml` | NeuVector Monitoring (aka Prometheus Exporter) Helm chart values. |
-| `kubernetes/helm/values/kubernetes-csi-driver-nfs-values.yaml` | NFS provisioner setup to connect to the shared storage for NeuVector and Harbor PVCs |
+| `kubernetes/helm/values/kubernetes-csi-driver-nfs-values.yaml` | NFS provisioner setup to connect to the shared storage for NeuVector PVCs |
 | `network/rke2-*.demo.com.yaml` | Node-specific network configuration setups for `rke2-1`, `rke2-2`, and `rke2-3`. |
 
 ---
@@ -95,7 +95,6 @@ user_ssh_key: "SSH KEY (public) to access the nodes"
 
 #### Credential Details:
 * **SCC Registration (`scc_registration_code`) and SUSE REGISTRY USER NAME:** Obtained from the SUSE Customer Center (SCC). This provides a 60-day evaluation key for registering your SLE Micro instances.
-* **AppCo Authentication (`appco_*` & `artifact_registry_*`):** The pull credentials (username and base64-encoded secret token) required to download assets from internal SUSE/Rancher registry endpoints and Helm charts.
 * **SSH Key (`user_ssh_key`):** By default, SLE Micro disables remote root login. Set your public SSH key here to be able to access the cluster nodes remotely as user.
 
 
@@ -268,7 +267,7 @@ Once your `eib-iso-definition.yaml` file has been successfully rendered by Ansib
 ```bash
 podman run --rm -it --privileged \
   -v $CONFIG_DIR:/eib \
-  [registry.suse.com/edge/3.6/edge-image-builder:1.3.4](https://registry.suse.com/edge/3.6/edge-image-builder:1.3.4) build \
+  [registry.suse.com/edge/3.7/edge-image-builder:1.3.4](https://registry.suse.com/edge/3.7/edge-image-builder:1.3.4) build \
   --definition-file eib-iso-definition.yaml
 ```
 
@@ -343,17 +342,4 @@ virt-install \
     * **URL:** `https://rancher-dev.demo.com`
     * **Bootstrap Password:** `admin`
 
-2.  **Verify Workloads:** NeuVector and CloudNativePG are configured to automatically instantiate during installation.
-
-3.  **Deploy a Sample Database:** Validate that cluster storage and CloudNativePG operators are running correctly by deploying a 3-replica PostgreSQL test database:
-
-```yaml
-apiVersion: postgresql.cnpg.io/v1
-kind: Cluster
-metadata:
-  name: cluster-example
-spec:
-  instances: 3
-  storage:
-    size: 1Gi
-```
+2.  **Verify Workloads:** NeuVector configured to automatically instantiate during installation.

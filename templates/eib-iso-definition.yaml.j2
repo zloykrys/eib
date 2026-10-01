@@ -80,33 +80,15 @@ kubernetes:
         installationNamespace: kube-system
         valuesFile: neuvector-monitor.yaml
 
-# CloudNativePG
-
-      - name: cloudnative-pg
-        repositoryName: appco
-        version: 0.29.1
-        targetNamespace: cloudnativepg
-        createNamespace: true
-        installationNamespace: kube-system
-
 # CSI driver
-      - name: kubernetes-csi-driver-nfs
-        repositoryName: appco
+      - name: csi-driver-nfs
+        repositoryName: csi-driver-nfs
         version: 4.13.4
         targetNamespace: kubernetes-csi-driver-nfs
         createNamespace: true
         installationNamespace: kube-system
         valuesFile: kubernetes-csi-driver-nfs-values.yaml
 
-# Harbor registry
-
-      - name: harbor
-        repositoryName: appco
-        version: 1.19.2
-        targetNamespace: harbor-system
-        createNamespace: true
-        installationNamespace: kube-system
-        valuesFile: harbor.yaml
 
 # Compliance Operator
       - name: rancher-compliance-crd
@@ -160,23 +142,10 @@ kubernetes:
         url: https://charts.rancher.com/server-charts/prime
       - name: rancher-charts
         url: https://charts.rancher.io/
-      - name: appco
-        url: oci://dp.apps.rancher.io/charts
-        plainHTTP: false
-        authentication:
-          username: "{{ appco_repo_username }}"
-          password: "{{ appco_repo_password }}"
+      - name: csi-driver-nfs
+        url: https://kubernetes-csi.github.io/csi-driver-nfs
 
 embeddedArtifactRegistry:
-#  registries:
-#    - uri: registry.suse.com
-#      authentication:
-#        username: "{{ suse_registry_username }}"
-#        password: "{{ suse_registry_password }}"
-#    - uri: dp.apps.rancher.io
-#      authentication:
-#        username: "{{ appco_repo_username }}" 
-#        password: "{{ appco_repo_password }}"
         
   images:
     - name: registry.rancher.com/rancher/ali-operator:v1.15.0
